@@ -78,9 +78,22 @@ func TextToGrid(text string, font Font) [][]int {
 }
 
 func main() {
+	widen := contains(os.Args, "-w")
 	in, _ := ioutil.ReadAll(os.Stdin)
 	for _, line := range strings.Split(string(in), "\n") {
 		grid := TextToGrid(strings.ReplaceAll(line, "\t", "    "), TomThumb)
+		if widen {
+			grid = WidenGrid(grid)
+		}
 		PrintGrid(grid)
 	}
+}
+
+func contains[T comparable](slice []T, value T) bool {
+	for _, element := range slice {
+		if element == value {
+			return true
+		}
+	}
+	return false
 }
